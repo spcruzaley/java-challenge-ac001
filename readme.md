@@ -61,6 +61,7 @@ This endpoint should receive a graph and store it in the database for future ref
 * HTTP Response Code: CREATED
 * Contract:
   * Request payload
+
 ```javascript
 {
   "data":[
@@ -100,7 +101,9 @@ This endpoint should receive a graph and store it in the database for future ref
   ]
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "id" : 1,
@@ -153,6 +156,7 @@ This endpoint should retrieve a previously saved graph from the database. If the
   * Request payload: none
 
   * Response payload
+
 ```javascript
 {
   "id" : 1,
@@ -206,6 +210,7 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
 * HTTP Response Code: OK
 * Contract:
   * Request payload
+
 ```javascript
 {
   "maxStops" : 3,
@@ -240,7 +245,9 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
   ]
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "routes": ["ABC", "ADC", "AEBC"]
@@ -256,12 +263,15 @@ This endpoint should do exactly the same calculation described (in the previous 
 * HTTP Response Code: OK
 * Contract:
   * Request payload
+
 ```javascript
 {
   "maxStops" : 3
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "routes": ["ABC", "ADC", "AEBC"]
@@ -277,6 +287,7 @@ This endpoint should receive a directed graph and a ordered list of towns and re
 * HTTP Response Code: OK
 * Contract:
   * Request payload
+
 ```javascript
 {
   "path":["A", "B", "C", "D"],
@@ -317,7 +328,9 @@ This endpoint should receive a directed graph and a ordered list of towns and re
   ]
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "distance" : 9
@@ -333,12 +346,15 @@ This endpoint should do exactly the same calculation described (in the previous 
 * HTTP Response Code: OK
 * Contract:
   * Request payload
+
 ```javascript
 {
   "path":["A", "B", "C", "D"]
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "distance" : 9
@@ -354,6 +370,7 @@ This endpoint should receive a directed graph and find the shortest path between
 * HTTP Response Code: OK
 * Contract:
   * Request payload
+
 ```javascript
 {
   "data":[
@@ -393,7 +410,9 @@ This endpoint should receive a directed graph and find the shortest path between
   ]
 }
 ```
+
   * Response payload
+
 ```javascript
 {
   "distance" : 3,
@@ -412,6 +431,7 @@ This endpoint should do exactly the same calculation described (in the previous 
   * Request payload: none
 
   * Response payload
+
 ```javascript
 {
   "distance" : 3,
