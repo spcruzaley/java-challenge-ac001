@@ -56,7 +56,7 @@ The directed graph will be represented as plain text, where the towns are named 
 
 This endpoint should receive a graph and store it in the database for future references.
 
-* Endpoint: http://<host>:<port>/graph
+* Endpoint: `http://<host>:<port>/graph`
 * HTTP Method: POST
 * HTTP Response Code: CREATED
 * Contract:
@@ -149,7 +149,7 @@ This endpoint should receive a graph and store it in the database for future ref
 
 This endpoint should retrieve a previously saved graph from the database. If the graph doesn't exist, should return a NOT FOUND error response.
 
-* Endpoint: http://<host>:<port>/graph/1
+* Endpoint: `http://<host>:<port>/graph/1`
 * HTTP Method: GET
 * HTTP Response Code: OK
 * Contract:
@@ -205,7 +205,7 @@ of stops. If there's no available routes, the result should be an empty list.
 
 For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the possible routes from A to C with maximum of 3 stops would be: ["ABC", "ADC", "AEBC"]
 
-* Endpoint: http://<host>:<port>/routes/from/<town 1>/to/<town 2>
+* Endpoint: `http://<host>:<port>/routes/from/<town 1>/to/<town 2>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -258,7 +258,7 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
 
 This endpoint should do exactly the same calculation described (in the previous section)[#find-available-routes-from-a-given-pair-of-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
-* Endpoint: http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>
+* Endpoint: `http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -282,7 +282,7 @@ This endpoint should do exactly the same calculation described (in the previous 
 
 This endpoint should receive a directed graph and a ordered list of towns and retrieve the total distance on walking through the list of towns in the order they appear on the request. If the list of towns is empty or has a single element, the result should be zero. If there's no path described by the list of towns, the result should be -1.
 
-* Endpoint: http://<host>:<port>/distance
+* Endpoint: `http://<host>:<port>/distance`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -341,7 +341,7 @@ This endpoint should receive a directed graph and a ordered list of towns and re
 
 This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-for-path] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
-* Endpoint: http://<host>:<port>/distance/<graph id>
+* Endpoint: `http://<host>:<port>/distance/<graph id>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -365,7 +365,7 @@ This endpoint should do exactly the same calculation described (in the previous 
 
 This endpoint should receive a directed graph and find the shortest path between two towns. If the start and end town are the same, the result should be zero. If there's no path between these towns, it should be -1.
 
-* Endpoint: http://<host>:<port>/distance/from/<town 1>/to/<town 2>
+* Endpoint: `http://<host>:<port>/distance/from/<town 1>/to/<town 2>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -424,7 +424,7 @@ This endpoint should receive a directed graph and find the shortest path between
 
 This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-between-two-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
-* Endpoint: http://<host>:<port>/distance/<graph id>/from/<town 1>/to/<town 2>
+* Endpoint: `http://<host>:<port>/distance/<graph id>/from/<town 1>/to/<town 2>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
