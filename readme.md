@@ -13,7 +13,7 @@ weekend. We are very flexible as long as you provide a reasonable explanation.
   Not having enough time will not be accepted as an excuse to deliver an unsatisfactory solution.
   
   
-  ## Background
+## Background
   
   
 Lannister Carriage Services provides commute and transportation services to a number of
@@ -41,9 +41,8 @@ the number of different routes between two towns, and the shortest route between
 ## Functional / Acceptance Criteria
 
 The input will be given as a directed graph where a node represents a town and an edge represents a route between two towns. The weighting of the edge represents the distance between the two towns. A given route will never appear more than once, and for a given route, the starting and ending town will not be the same town.
-The directed graph will be represented as plain text, where the towns are named using letters from the alphabet. A route from town A to town B with distance 5 is represented by the string **AB5**.
 
-It also can be represented as JSON:
+The directed graph will be represented as plain text, where the towns are named using letters from the alphabet. A route from town A to town B with distance 5 is represented by the string **AB5**. It also can be represented as JSON:
 
 ```javascript
 { 
@@ -53,76 +52,372 @@ It also can be represented as JSON:
 }
 ```
 
-For example, complete scenario ca be represented by the following string:
-**AB6, AE4, BA6, BC2, BD4, CB3, CD1, CE7, DB8, EB5, ED7**.
+### Save graph configuration
 
+This endpoint should receive a graph and store it in the database for future references.
 
-and as JSON :
-
+* Endpoint: http://<host>:<port>/graph
+* HTTP Method: POST
+* HTTP Response Code: CREATED
+* Contract:
+  * Request payload
 ```javascript
 {
   "data":[
-  { 
-    "source": "A", "target": "B", "distance":6
-  },
-  { 
-    "source": "A", "target": "E", "distance":4
-  },
-  { 
-    "source": "B", "target": "A", "distance":6
-  },
-  { 
-    "source": "B", "target": "C", "distance":2
-  },
-  { 
-    "source": "B", "target": "D", "distance":4
-  },
-  { 
-    "source": "C", "target": "B", "distance":3
-  },
-  { 
-    "source": "C", "target": "D", "distance":1
-  },
-  { 
-    "source": "C", "target": "E", "distance":7
-  },
-  { 
-    "source": "B", "target": "D", "distance":8
-  },
-  { 
-    "source": "E",  "target": "B", "distance":5
-  },
-  { 
-    "source": "E", "target": "D", "distance":7
-  }
-]}
+    { 
+      "source": "A", "target": "B", "distance":6
+    },
+    { 
+      "source": "A", "target": "E", "distance":4
+    },
+    { 
+      "source": "B", "target": "A", "distance":6
+    },
+    { 
+      "source": "B", "target": "C", "distance":2
+    },
+    { 
+      "source": "B", "target": "D", "distance":4
+    },
+    { 
+      "source": "C", "target": "B", "distance":3
+    },
+    { 
+      "source": "C", "target": "D", "distance":1
+    },
+    { 
+      "source": "C", "target": "E", "distance":7
+    },
+    { 
+      "source": "B", "target": "D", "distance":8
+    },
+    { 
+      "source": "E",  "target": "B", "distance":5
+    },
+    { 
+      "source": "E", "target": "D", "distance":7
+    }
+  ]
+}
+```
+  * Response payload
+```javascript
+{
+  "id" : 1,
+  "data":[
+    { 
+      "source": "A", "target": "B", "distance":6
+    },
+    { 
+      "source": "A", "target": "E", "distance":4
+    },
+    { 
+      "source": "B", "target": "A", "distance":6
+    },
+    { 
+      "source": "B", "target": "C", "distance":2
+    },
+    { 
+      "source": "B", "target": "D", "distance":4
+    },
+    { 
+      "source": "C", "target": "B", "distance":3
+    },
+    { 
+      "source": "C", "target": "D", "distance":1
+    },
+    { 
+      "source": "C", "target": "E", "distance":7
+    },
+    { 
+      "source": "B", "target": "D", "distance":8
+    },
+    { 
+      "source": "E",  "target": "B", "distance":5
+    },
+    { 
+      "source": "E", "target": "D", "distance":7
+    }
+  ]
+}
 ```
 
-  
-  For any given directed graph, the application should be able to:
-1. Compute the total distance of any route given as input. A route will be represented as a
-string of town letters, such as "ABC".
-In the example above, the distance of route
-"ABCD"
-is 6 + 2 + 1 = 9 and the distance of route "AE"
-is 4.
-2. Compute all available routes from any given pair of towns within a given maximum number
-of stops. In the example graph, for starting town A and ending town C there are an infinite
-number of routes: "ABC",
-"AEBC",
-"AEDBC",
-"AEDBDBC",
-"AEDBDBDBC",
-and so on. However, if we limit this list to routes with 3 stops or
-less, the result will be routes "ABC"
-(2 stops) and "AEBC"
-(3 stops) only. If no routes
-are available, the application should explicitly indicate that.
-3. Compute the shortest route (in terms of distance to travel) between any pair of towns given
-as input. In the example graph, for starting town A and ending town C the shortest route is
-"ABC",
-which has a travel distance of 8. If no routes are available, the application should
-explicitly indicate that.
+### Retrieve graph configuration
+
+This endpoint should retrieve a previously saved graph from the database. If the graph doesn't exist, should return a NOT FOUND error response.
+
+* Endpoint: http://<host>:<port>/graph/1
+* HTTP Method: GET
+* HTTP Response Code: OK
+* Contract:
+  * Request payload: none
+
+  * Response payload
+```javascript
+{
+  "id" : 1,
+  "data":[
+    { 
+      "source": "A", "target": "B", "distance":6
+    },
+    { 
+      "source": "A", "target": "E", "distance":4
+    },
+    { 
+      "source": "B", "target": "A", "distance":6
+    },
+    { 
+      "source": "B", "target": "C", "distance":2
+    },
+    { 
+      "source": "B", "target": "D", "distance":4
+    },
+    { 
+      "source": "C", "target": "B", "distance":3
+    },
+    { 
+      "source": "C", "target": "D", "distance":1
+    },
+    { 
+      "source": "C", "target": "E", "distance":7
+    },
+    { 
+      "source": "B", "target": "D", "distance":8
+    },
+    { 
+      "source": "E",  "target": "B", "distance":5
+    },
+    { 
+      "source": "E", "target": "D", "distance":7
+    }
+  ]
+}
+```
+
+### Find available routes from a given pair of towns
+
+This endpoint should compute all available routes from any given pair of towns within a given maximum number
+of stops. If there's no available routes, the result should be an empty list.
+
+For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the possible routes from A to C with maximum of 3 stops would be: ["ABC", "ADC", "AEBC"]
+
+* Endpoint: http://<host>:<port>/routes/from/<town 1>/to/<town 2>
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload
+```javascript
+{
+  "maxStops" : 3,
+  "data":[
+    { 
+      "source": "A", "target": "B", "distance":5
+    },
+    { 
+      "source": "B", "target": "C", "distance":4
+    },
+    { 
+      "source": "C", "target": "D", "distance":8
+    },
+    { 
+      "source": "D", "target": "C", "distance":8
+    },
+    { 
+      "source": "D", "target": "E", "distance":6
+    },
+    { 
+      "source": "A", "target": "D", "distance":5
+    },
+    { 
+      "source": "C", "target": "E", "distance":2
+    },
+    { 
+      "source": "E", "target": "B", "distance":3
+    },
+    { 
+      "source": "A", "target": "E", "distance":7
+    }
+  ]
+}
+```
+  * Response payload
+```javascript
+{
+  "routes": ["ABC", "ADC", "AEBC"]
+}
+```
+
+### Find available routes from a given pair of towns on saved graph
+
+This endpoint should do exactly the same calculation described (in the previous section)[#find-available-routes-from-a-given-pair-of-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+
+* Endpoint: http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload
+```javascript
+{
+  "maxStops" : 3
+}
+```
+  * Response payload
+```javascript
+{
+  "routes": ["ABC", "ADC", "AEBC"]
+}
+```
+
+### Find distance for path
+
+This endpoint should receive a directed graph and a ordered list of towns and retrieve the total distance on walking through the list of towns in the order they appear on the request. If the list of towns is empty or has a single element, the result should be zero. If there's no path described by the list of towns, the result should be -1.
+
+* Endpoint: http://<host>:<port>/distance
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload
+```javascript
+{
+  "path":["A", "B", "C", "D"],
+  "data":[
+    { 
+      "source": "A", "target": "B", "distance":6
+    },
+    { 
+      "source": "A", "target": "E", "distance":4
+    },
+    { 
+      "source": "B", "target": "A", "distance":6
+    },
+    { 
+      "source": "B", "target": "C", "distance":2
+    },
+    { 
+      "source": "B", "target": "D", "distance":4
+    },
+    { 
+      "source": "C", "target": "B", "distance":3
+    },
+    { 
+      "source": "C", "target": "D", "distance":1
+    },
+    { 
+      "source": "C", "target": "E", "distance":7
+    },
+    { 
+      "source": "B", "target": "D", "distance":8
+    },
+    { 
+      "source": "E",  "target": "B", "distance":5
+    },
+    { 
+      "source": "E", "target": "D", "distance":7
+    }
+  ]
+}
+```
+  * Response payload
+```javascript
+{
+  "distance" : 9
+}
+```
+
+### Find distance for path on saved graph
+
+This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-for-path] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+
+* Endpoint: http://<host>:<port>/distance/<graph id>
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload
+```javascript
+{
+  "path":["A", "B", "C", "D"]
+}
+```
+  * Response payload
+```javascript
+{
+  "distance" : 9
+}
+```
+
+### Find distance between two towns
+
+This endpoint should receive a directed graph and find the shortest path between two towns. If the start and end town are the same, the result should be zero. If there's no path between these towns, it should be -1.
+
+* Endpoint: http://<host>:<port>/distance/from/<town 1>/to/<town 2>
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload
+```javascript
+{
+  "data":[
+    { 
+      "source": "A", "target": "B", "distance":6
+    },
+    { 
+      "source": "A", "target": "E", "distance":4
+    },
+    { 
+      "source": "B", "target": "A", "distance":6
+    },
+    { 
+      "source": "B", "target": "C", "distance":2
+    },
+    { 
+      "source": "B", "target": "D", "distance":4
+    },
+    { 
+      "source": "C", "target": "B", "distance":3
+    },
+    { 
+      "source": "C", "target": "D", "distance":1
+    },
+    { 
+      "source": "C", "target": "E", "distance":7
+    },
+    { 
+      "source": "B", "target": "D", "distance":8
+    },
+    { 
+      "source": "E",  "target": "B", "distance":5
+    },
+    { 
+      "source": "E", "target": "D", "distance":7
+    }
+  ]
+}
+```
+  * Response payload
+```javascript
+{
+  "distance" : 3,
+  "path" : ["A", "B", "C"]
+}
+```
+
+### Find distance between two towns
+
+This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-between-two-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+
+* Endpoint: http://<host>:<port>/distance/<graph id>/from/<town 1>/to/<town 2>
+* HTTP Method: POST
+* HTTP Response Code: OK
+* Contract:
+  * Request payload: none
+
+  * Response payload
+```javascript
+{
+  "distance" : 3,
+  "path" : ["A", "B", "C"]
+}
+```
 
 ## Test Data
 
@@ -146,7 +441,7 @@ Test cases:
 	- ADCDC (4 stops)
 	- ADEBC (4 stops)
 8. Shortest route (by distance) from A to C: ABC  (distance = 9)
-9. Shortest route (by distance) from B to B: BCEB (distance = 9)
+9. Shortest route (by distance) from B to B: B (distance = 0)
 
 
 ## Technical Details
@@ -154,17 +449,17 @@ Test cases:
 
 You should implement more than a barebone algorithm. We are expecting a runnable application with a minimal structure. You should create an object model and use design patterns wherever they are appropriate, but try to keep things simple.
 
-1) Maven or gradle must be used to build, run tests and start the application. 
-2) The tests must be started with the mvn test command or similar. 
-3) The application must start with a Maven command or similar: mvn exec:java, mvn jetty:run, mvn spring-boot:run, etc. 
-4) The application must have a stateless API and use a database to store data. 
-5) An embedded in-memory database should be used: either H2, HSQL, SQLite or Derby. 
-6) The database and tables creation should be done by Maven/Graddle or by the application. 
-7) You must provide gitlab username. A free gitlab account can be created at http://gitlab.org. Once finished, you must give the user ac-recruitment read permission on your repository so that you can be evaluated. 
-8) You must provide a README.txt (plain text) or a README.md (Markdown) file at the root of your repository, explaining: 
-- How to compile and run the application with an example for each call. 
-- How to run the suite of automated tests. 
-- Mention anything that was asked but not delivered and why, and any additional comments.
+1. Maven or gradle must be used to build, run tests and start the application. 
+2. The tests must be started with the mvn test command or similar. 
+3. The application must start with a Maven command or similar: mvn exec:java, mvn jetty:run, mvn spring-boot:run, etc. 
+4. The application must have a stateless API and use a database to store data. 
+5. An embedded in-memory database should be used: either H2, HSQL, SQLite or Derby. 
+6. The database and tables creation should be done by Maven/Graddle or by the application. 
+7. You must provide gitlab username. A free gitlab account can be created at http://gitlab.org. Once finished, you must give the user ac-recruitment read permission on your repository so that you can be evaluated. 
+8. You must provide a README.txt (plain text) or a README.md (Markdown) file at the root of your repository, explaining: 
+  - How to compile and run the application with an example for each call. 
+  - How to run the suite of automated tests. 
+  - Mention anything that was asked but not delivered and why, and any additional comments.
 
 ## Assessment Guidelines
 
