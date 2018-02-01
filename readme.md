@@ -149,7 +149,7 @@ This endpoint should receive a graph and store it in the database for future ref
 
 This endpoint should retrieve a previously saved graph from the database. If the graph doesn't exist, should return a NOT FOUND error response.
 
-* Endpoint: `http://<host>:<port>/graph/1`
+* Endpoint: `http://<host>:<port>/graph/<graph id>`
 * HTTP Method: GET
 * HTTP Response Code: OK
 * Contract:
