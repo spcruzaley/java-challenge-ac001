@@ -466,20 +466,15 @@ Test cases:
 
 ## Technical Details
 
-
 You should implement more than a barebone algorithm. We are expecting a runnable application with a minimal structure. You should create an object model and use design patterns wherever they are appropriate, but try to keep things simple.
 
-1. Maven or gradle must be used to build, run tests and start the application. 
-2. The tests must be started with the mvn test command or similar. 
-3. The application must start with a Maven command or similar: mvn exec:java, mvn jetty:run, mvn spring-boot:run, etc. 
+1. The application already have a Maven build set up.
+2. Make sure your test suite is part of the build once you create it.
+3. The application starts with a Maven command: mvn spring-boot:run
 4. The application must have a stateless API and use a database to store data. 
-5. An embedded in-memory database should be used: either H2, HSQL, SQLite or Derby. 
-6. The database and tables creation should be done by Maven/Graddle or by the application. 
-7. You must provide gitlab username. A free gitlab account can be created at http://gitlab.org. Once finished, you must give the user ac-recruitment read permission on your repository so that you can be evaluated. 
-8. You must provide a README.txt (plain text) or a README.md (Markdown) file at the root of your repository, explaining: 
-  - How to compile and run the application with an example for each call. 
-  - How to run the suite of automated tests. 
-  - Mention anything that was asked but not delivered and why, and any additional comments.
+5. An embedded H2 in-memory database is already available for usage from the configuration of the project. Feel free to change that implementation but you must guarantee your application will initialize as a standalone process on any different environment.
+6. The database and tables creation should be done by Maven (extending the build process) or by the application. 
+7. Please document any additional information you think it's required to evaluate properly your test.
 
 ## Assessment Guidelines
 
