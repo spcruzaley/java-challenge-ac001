@@ -268,7 +268,7 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
 
 ### Find available routes from a given pair of towns on saved graph
 
-This endpoint should do exactly the same calculation described ([in the previous section](#find-available-routes-from-a-given-pair-of-towns) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+This endpoint should do exactly the same calculation described ([in the previous section](#find-available-routes-from-a-given-pair-of-towns)) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
 * Endpoint: `http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>?maxStops=<maximum number of stops>`
 * HTTP Method: POST
@@ -357,7 +357,7 @@ This endpoint should receive a directed graph and a ordered list of towns and re
 
 ### Find distance for path on saved graph
 
-This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-for-path] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+This endpoint should do exactly the same calculation described ([in the previous section](#find-distance-for-path)) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
 * Endpoint: `http://<host>:<port>/distance/<graph id>`
 * HTTP Method: POST
@@ -440,7 +440,7 @@ This endpoint should receive a directed graph and find the shortest path between
 
 ### Find distance between two towns
 
-This endpoint should do exactly the same calculation described (in the previous section)[#find-distance-between-two-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+This endpoint should do exactly the same calculation described ([in the previous section](#find-distance-between-two-towns)) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
 * Endpoint: `http://<host>:<port>/distance/<graph id>/from/<town 1>/to/<town 2>`
 * HTTP Method: POST
