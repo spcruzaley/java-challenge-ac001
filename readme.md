@@ -201,11 +201,11 @@ This endpoint should retrieve a previously saved graph from the database. If the
 ### Find available routes from a given pair of towns
 
 This endpoint should compute all available routes from any given pair of towns within a given maximum number
-of stops. If there's no available routes, the result should be an empty list.
+of stops. If there's no available routes, the result should be an empty list. In case the parameter "maxStops" is not provided, you should list all routes for the given pair of towns.
 
 For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the possible routes from A to C with maximum of 3 stops would be: ["ABC", "ADC", "AEBC"]
 
-* Endpoint: `http://<host>:<port>/routes/from/<town 1>/to/<town 2>`
+* Endpoint: `http://<host>:<port>/routes/from/<town 1>/to/<town 2>?maxStops=<maximum number of stops>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
@@ -213,7 +213,6 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
 
 ```javascript
 {
-  "maxStops" : 3,
   "data":[
     { 
       "source": "A", "target": "B", "distance":5
@@ -250,31 +249,50 @@ For instance, in the graph (AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7), the po
 
 ```javascript
 {
-  "routes": ["ABC", "ADC", "AEBC"]
+  "routes": [
+    {
+      "route": "ABC",
+      "stops": 2
+    },
+    {
+      "route": "ADC",
+      "stops": 2
+    },
+    {
+      "route": "AEBC",
+      "stops": 3
+    }
+  ]
 }
 ```
 
 ### Find available routes from a given pair of towns on saved graph
 
-This endpoint should do exactly the same calculation described (in the previous section)[#find-available-routes-from-a-given-pair-of-towns] but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
+This endpoint should do exactly the same calculation described ([in the previous section](#find-available-routes-from-a-given-pair-of-towns) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
-* Endpoint: `http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>`
+* Endpoint: `http://<host>:<port>/routes/<graph id>/from/<town 1>/to/<town 2>?maxStops=<maximum number of stops>`
 * HTTP Method: POST
 * HTTP Response Code: OK
 * Contract:
-  * Request payload
-
-```javascript
-{
-  "maxStops" : 3
-}
-```
-
+  * Request payload: none
   * Response payload
 
 ```javascript
 {
-  "routes": ["ABC", "ADC", "AEBC"]
+  "routes": [
+    {
+      "route": "ABC",
+      "stops": 2
+    },
+    {
+      "route": "ADC",
+      "stops": 2
+    },
+    {
+      "route": "AEBC",
+      "stops": 3
+    }
+  ]
 }
 ```
 
