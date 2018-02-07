@@ -491,8 +491,9 @@ You should implement more than a barebone algorithm. We are expecting a runnable
 3. The application starts with a Maven command: mvn spring-boot:run
 4. The application must have a stateless API and use a database to store data. 
 5. An embedded H2 in-memory database is already available for usage from the configuration of the project. Feel free to change that implementation but you must guarantee your application will initialize as a standalone process on any different environment.
-6. The database and tables creation should be done by Maven (extending the build process) or by the application. 
-7. Please document any additional information you think it's required to evaluate properly your test.
+6. Although you can change the port the application will use on your local development, please make sure you **DO NOT CHANGE IT** on your repository.
+7. The database and tables creation should be done by Maven (extending the build process) or by the application. 
+8. Please document any additional information you think it's required to evaluate properly your test.
 
 ## Assessment Guidelines
 
