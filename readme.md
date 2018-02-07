@@ -438,7 +438,7 @@ This endpoint should receive a directed graph and find the shortest path between
 }
 ```
 
-### Find distance between two towns
+### Find distance between two towns on saved graph
 
 This endpoint should do exactly the same calculation described ([in the previous section](#find-distance-between-two-towns)) but it should use a previously saved graph. If the graph doesn't exist in the database, it should return a NOT FOUND error response.
 
