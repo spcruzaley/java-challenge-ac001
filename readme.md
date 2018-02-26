@@ -486,6 +486,8 @@ Test cases:
 
 ## Technical Details
 
+To start the development, please create a fork of this repository to your user account. That version will be used during the evaluation.
+
 You should implement more than a barebone algorithm. We are expecting a runnable application with a minimal structure. You should create an object model and use design patterns wherever they are appropriate, but try to keep things simple.
 
 1. The application already have a Maven build set up.
@@ -497,6 +499,12 @@ You should implement more than a barebone algorithm. We are expecting a runnable
 7. Although you can change the port the application will use on your local development, please make sure you **DO NOT CHANGE IT** on your repository.
 8. The database and tables creation should be done by Maven (extending the build process) or by the application. 
 9. Please document any additional information you think it's required to evaluate properly your test.
+
+## Evaluation
+
+Once you finish your assessment please create a merge request to push your changes to Avenue Code's repository. The evaluation will take the version you had at that moment and no future changes will be accepted.
+
+We recommend that you use your forked version of this repository to organize your development process. Push small changes to the repository and implement the features using baby steps may be a good tip to avoid spending too much time on debugging errors. You can use many commits and branches you like but make sure you have the merge request created **ONLY AT THE END OF YOUR DEVELOPMENT**.
 
 ## Assessment Guidelines
 
