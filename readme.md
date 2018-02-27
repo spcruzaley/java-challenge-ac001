@@ -10,7 +10,7 @@ If you are unable to take 3 days to work on this assessment, please let your rec
 beforehand. If you are busy at work, our recommendation is that you ask to do this test on a
 weekend. We are very flexible as long as you provide a reasonable explanation.
   
-  Not having enough time wilczxczxl not be accepted as an excuse to deliver an unsatisfactory solution.
+  Not having enough time will not be accepted as an excuse to deliver an unsatisfactory solution.
   
   
 ## Background
