@@ -56,7 +56,7 @@ The directed graph will be represented as plain text, where the towns are named 
 
 ### Save graph configuration
 
-This endpoint should receive a graph and store it in the database for future references.
+This endpoint should receive a graph and store it in the database for future references. It should associate an integer identifier to the graph and send it on the response body.
 
 * Endpoint: `http://<host>:<port>/graph`
 * HTTP Method: POST
@@ -477,8 +477,6 @@ Test cases:
 	- ABC   (2 stops)
 	- ADC   (2 stops)
 	- AEBC  (3 stops)
-	- ABCDC (4 stops)
-	- ADCDC (4 stops)
 	- ADEBC (4 stops)
 8. Shortest route (by distance) from A to C: ABC  (distance = 9)
 9. Shortest route (by distance) from B to B: B (distance = 0)
