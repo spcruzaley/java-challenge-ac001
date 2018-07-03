@@ -92,7 +92,7 @@ This endpoint should receive a graph and store it in the database for future ref
       "source": "C", "target": "E", "distance":7
     },
     { 
-      "source": "B", "target": "D", "distance":8
+      "source": "D", "target": "B", "distance":8
     },
     { 
       "source": "E",  "target": "B", "distance":5
@@ -135,7 +135,7 @@ This endpoint should receive a graph and store it in the database for future ref
       "source": "C", "target": "E", "distance":7
     },
     { 
-      "source": "B", "target": "D", "distance":8
+      "source": "D", "target": "B", "distance":8
     },
     { 
       "source": "E",  "target": "B", "distance":5
@@ -188,7 +188,7 @@ This endpoint should retrieve a previously saved graph from the database. If the
       "source": "C", "target": "E", "distance":7
     },
     { 
-      "source": "B", "target": "D", "distance":8
+      "source": "D", "target": "B", "distance":8
     },
     { 
       "source": "E",  "target": "B", "distance":5
@@ -301,6 +301,8 @@ Test cases:
 
 ## Technical Details
 
+*Please pay attention on the the advices listed below.*
+
 To start the development, please create a fork of this repository to your user account. That version will be used during the evaluation.
 
 You should implement more than a barebone algorithm. We are expecting a runnable application with a minimal structure. You should create an object model and use design patterns wherever they are appropriate, but try to keep things simple.
@@ -312,8 +314,9 @@ You should implement more than a barebone algorithm. We are expecting a runnable
 5. The application must have a stateless API and use a database to store data. 
 6. An embedded H2 in-memory database is already available for usage from the configuration of the project. Feel free to change that implementation but you must guarantee your application will initialize as a standalone process on any different environment.
 7. Although you can change the port the application will use on your local development, please make sure you **DO NOT CHANGE IT** on your repository.
-8. The database and tables creation should be done by Maven (extending the build process) or by the application. 
-9. Please document any additional information you think it's required to evaluate properly your test.
+8. Make sure default Maven package strategy is JAR
+9. The database and tables creation should be done by Maven (extending the build process) or by the application. 
+10. Please document any additional information you think it's required to evaluate properly your test.
 
 ## Evaluation
 
