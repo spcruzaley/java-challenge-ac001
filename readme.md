@@ -3,6 +3,7 @@
 
 ## Please read first 
 
+Take some time for read the ***Technical Details*** section. Make sure your application is in compliance with **ALL** guidelines described in there.
 
 We usually ask candidates to deliver this assessment within 3 days.
 
@@ -315,8 +316,9 @@ You should implement more than a barebone algorithm. We are expecting a runnable
 6. An embedded H2 in-memory database is already available for usage from the configuration of the project. Feel free to change that implementation but you must guarantee your application will initialize as a standalone process on any different environment.
 7. Although you can change the port the application will use on your local development, please make sure you **DO NOT CHANGE IT** on your repository.
 8. Make sure default Maven package strategy is JAR
-9. The database and tables creation should be done by Maven (extending the build process) or by the application. 
-10. Please document any additional information you think it's required to evaluate properly your test.
+9. **DO NOT** change the generated artifact name/pattern
+10. The database and tables creation should be done by Maven (extending the build process) or by the application. 
+11. Please document any additional information you think it's required to evaluate properly your test.
 
 ## Evaluation
 
