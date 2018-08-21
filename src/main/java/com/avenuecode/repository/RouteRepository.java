@@ -6,14 +6,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class RouteRepository  {
+    private static Logger logger = Logger.getLogger("InfoLogging");
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public static final String GET_ALL_ROUTES = "select * from route";
+    public static final String GET_ID_ROUTE_GROUP_MAX = "select max(idRouteGroup) from route";
 
     /**
      * Get all the routes stored in the DB
@@ -48,5 +51,26 @@ public class RouteRepository  {
                         idRouteGroup
                 },
                 new RouteRowMapper());
+    }
+
+    public int getLastIdRouteGroup() {
+        logger.info("*****************************************************");
+        logger.info("jdbcTemplate --> " + jdbcTemplate);
+        logger.info("*****************************************************");
+        return jdbcTemplate.query(GET_ID_ROUTE_GROUP_MAX, resultSet -> {
+            if(resultSet.next()) {
+                return resultSet.getInt(1);
+            } else {
+                return 0;
+            }
+        });
+    }
+
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 }
