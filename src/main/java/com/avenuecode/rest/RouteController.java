@@ -1,9 +1,9 @@
 package com.avenuecode.rest;
 
-import com.avenuecode.domain.Resource;
+import com.avenuecode.repository.RouteBO;
+import com.avenuecode.repository.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,34 +17,37 @@ import java.net.URI;
 public class RouteController {
 
     @Autowired
-    ReplyRoute replyRoute;
+    RouteReply replyRoute;
 
     @RequestMapping(method = RequestMethod.POST, value = "/graph")
     @ResponseBody
     public ResponseEntity<?> saveGraph(@RequestParam(value="data") String data) {
-        //ReplyRoute replyRoute = new ReplyRoute();
-        Resource resource = replyRoute.saveGraph(data);
+        int idRouteCreated = replyRoute.insert(data);
+
+        RouteBO routeBO = new RouteBO();
+        if(idRouteCreated > 0) {
+            routeBO = replyRoute.get(idRouteCreated);
+        }
 
         final URI location = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/graph?id="+resource.getId()).build().toUri();
+                .fromCurrentServletMapping().path("/graph?id="+idRouteCreated).build().toUri();
 
-        return ResponseEntity.created(location).body(resource);
+        return ResponseEntity.created(location).body(routeBO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/graph")
     @ResponseBody
     public ResponseEntity<?> getGraph(@RequestParam(value="id") int id) {
-        ReplyRoute replyRoute = new ReplyRoute();
-        Resource resource = replyRoute.getGraph(id);
+        RouteBO routeBO = replyRoute.get(id);
 
-        return ResponseEntity.ok().body(resource);
+        return ResponseEntity.ok().body(routeBO);
     }
 
 /*    @RequestMapping(method = RequestMethod.POST, value = "/graph")
     @ResponseBody
     public ResponseEntity<?> saveGraphReply(@RequestParam(value="data") String jsonData) {
-        ReplyRoute replyRoute = new ReplyRoute();
-        Resource resource = replyRoute.saveGraph(jsonData);
+        RouteReply replyRoute = new RouteReply();
+        RouteBuilder resource = replyRoute.insert(jsonData);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

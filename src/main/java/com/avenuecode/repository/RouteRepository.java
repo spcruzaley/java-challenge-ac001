@@ -17,6 +17,7 @@ public class RouteRepository  {
 
     public static final String GET_ALL_ROUTES = "select * from route";
     public static final String GET_ID_ROUTE_GROUP_MAX = "select max(idRouteGroup) from route";
+    public static final String TRUNCATE_ROUTE_TABLE = "truncate table route";
 
     /**
      * Get all the routes stored in the DB
@@ -53,10 +54,11 @@ public class RouteRepository  {
                 new RouteRowMapper());
     }
 
+    /**
+     * Get the last groupId generated
+     * @return The max id number group
+     */
     public int getLastIdRouteGroup() {
-        logger.info("*****************************************************");
-        logger.info("jdbcTemplate --> " + jdbcTemplate);
-        logger.info("*****************************************************");
         return jdbcTemplate.query(GET_ID_ROUTE_GROUP_MAX, resultSet -> {
             if(resultSet.next()) {
                 return resultSet.getInt(1);
@@ -64,6 +66,13 @@ public class RouteRepository  {
                 return 0;
             }
         });
+    }
+
+    /**
+     * Truncate all the information located in the Route table
+     */
+    public void truncateTable() {
+        jdbcTemplate.execute(TRUNCATE_ROUTE_TABLE);
     }
 
     public JdbcTemplate getJdbcTemplate() {
