@@ -1,17 +1,19 @@
 package com.avenuecode.rest;
 
+import com.avenuecode.repository.AvailableRouteBO;
 import com.avenuecode.repository.RouteBO;
 import com.avenuecode.repository.RouteBuilder;
+import com.avenuecode.to.AvailableRoutesTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RouteController {
@@ -41,6 +43,24 @@ public class RouteController {
         RouteBO routeBO = replyRoute.get(id);
 
         return ResponseEntity.ok().body(routeBO);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/routes/{id}/from/{source}/to/{target}")
+    @ResponseBody
+    public ResponseEntity<?> getAvailableRoutes(
+            @PathVariable int id,
+            @PathVariable String source,
+            @PathVariable String target,
+            @RequestParam(defaultValue="10000") int maxStops) {
+        RouteBO routeBO = replyRoute.get(id);
+        List<AvailableRoutesTO> availableRoutes = replyRoute.getAvailableRoutes(source, target, id, maxStops);
+        AvailableRouteBO routes = new AvailableRouteBO(availableRoutes);
+
+        if(availableRoutes.isEmpty()) {
+            return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok().body(routes);
     }
 
 /*    @RequestMapping(method = RequestMethod.POST, value = "/graph")
