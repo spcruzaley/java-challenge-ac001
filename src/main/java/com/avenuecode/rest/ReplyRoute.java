@@ -6,10 +6,12 @@ import com.avenuecode.domain.Route;
 import com.avenuecode.repository.RouteRepository;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.logging.Logger;
 
+@Component
 public class ReplyRoute {
     private static Logger logger = Logger.getLogger("InfoLogging");
 

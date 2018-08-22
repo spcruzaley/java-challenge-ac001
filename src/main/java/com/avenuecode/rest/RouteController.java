@@ -16,10 +16,13 @@ import java.net.URI;
 @Controller
 public class RouteController {
 
+    @Autowired
+    ReplyRoute replyRoute;
+
     @RequestMapping(method = RequestMethod.POST, value = "/graph")
     @ResponseBody
     public ResponseEntity<?> saveGraph(@RequestParam(value="data") String data) {
-        ReplyRoute replyRoute = new ReplyRoute();
+        //ReplyRoute replyRoute = new ReplyRoute();
         Resource resource = replyRoute.saveGraph(data);
 
         final URI location = ServletUriComponentsBuilder
