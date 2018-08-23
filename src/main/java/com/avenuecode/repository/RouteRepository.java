@@ -29,13 +29,13 @@ public class RouteRepository  {
 
     /**
      * Save a route
-     * @param route  Route object to be inserted
+     * @param route  Route object dto be inserted
      * @return Number of rows affected, in other case 0
      */
-    public int insert(Route route) {
+    public int insert(Route route, int idRouteGroup) {
         return jdbcTemplate.update("insert into route (idRouteGroup, source, target, distance) " +
                 "values(?, ?, ?, ?)", new Object[]{
-                route.getIdRouteGroup(),
+                idRouteGroup,
                 route.getSource(),
                 route.getTarget(),
                 route.getDistance()
@@ -44,7 +44,7 @@ public class RouteRepository  {
 
     /**
      * Get a list with all the routes by group
-     * @param idRouteGroup id to identify the routes group
+     * @param idRouteGroup id dto identify the routes group
      * @return Routes list
      */
     public List<Route> findByIdRouteGroup(int idRouteGroup) {

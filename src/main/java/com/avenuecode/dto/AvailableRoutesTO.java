@@ -1,4 +1,4 @@
-package com.avenuecode.to;
+package com.avenuecode.dto;
 
 public class AvailableRoutesTO {
     private String route;
@@ -21,5 +21,13 @@ public class AvailableRoutesTO {
 
     public void setStops(int stops) {
         this.stops = stops;
+    }
+
+    @Override
+    public String toString() {
+        return "AvailableRoutesTO{" +
+                "route='" + route + '\'' +
+                ", stops=" + stops +
+                '}';
     }
 }

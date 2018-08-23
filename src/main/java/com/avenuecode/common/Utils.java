@@ -11,7 +11,13 @@ import java.util.List;
 
 public class Utils {
 
-    public static List<Route> jsonToListRoutes(String json, int idRouteGourp) throws ParseException {
+    /**
+     * Transform json data into list Route object
+     * @param json
+     * @return
+     * @throws ParseException
+     */
+    public static List<Route> jsonToListRoutes(String json) throws ParseException {
         JSONParser parse = new JSONParser();
         JSONObject jobj = (JSONObject) parse.parse(json);
         JSONArray jsonArray = (JSONArray) jobj.get("data");
@@ -22,7 +28,6 @@ public class Utils {
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonobj_1 = (JSONObject) jsonArray.get(i);
             route = new Route();
-            route.setIdRouteGroup(idRouteGourp);
             route.setSource(jsonobj_1.get("source").toString());
             route.setTarget(jsonobj_1.get("target").toString());
             route.setDistance(Integer.parseInt(jsonobj_1.get("distance").toString()));

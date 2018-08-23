@@ -23,8 +23,8 @@ public class Application {
         System.out.println("*************************************************************");
         List<Town> list = townRepository.getAll();
         System.out.println("Town size -> " + list.size());
-        for(Town to : list) {
-            System.out.println("Town t -> " + to);
+        for(Town dto : list) {
+            System.out.println("Town t -> " + dto);
         }
         System.out.println("*************************************************************");
     }*/

@@ -1,28 +1,34 @@
 package com.avenuecode.repository;
 
-import com.avenuecode.to.RouteTO;
+import com.avenuecode.domain.Route;
 
 import java.util.List;
 
 public class RouteBO {
-    private int id;
-    private List<RouteTO> data;
+    private int idGroupRoute;
+    private List<Route> data;
 
     public RouteBO() {}
 
-    public int getId() {
-        return id;
+    public RouteBO(List<Route> data, int idGroupRoute) {
+        this.data = data;
+        this.idGroupRoute = idGroupRoute;
+        
     }
 
-    public List<RouteTO> getData() {
+    public int getIdGroupRoute() {
+        return idGroupRoute;
+    }
+
+    public List<Route> getData() {
         return data;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdGroupRoute(int idGroupRoute) {
+        this.idGroupRoute = idGroupRoute;
     }
 
-    public void setData(List<RouteTO> data) {
+    public void setData(List<Route> data) {
         this.data = data;
     }
 }

@@ -1,9 +1,11 @@
 package com.avenuecode.rest;
 
-import com.avenuecode.repository.AvailableRouteBO;
+import com.avenuecode.common.Utils;
+import com.avenuecode.domain.Route;
+import com.avenuecode.dto.AvailableRoutesTO;
+import com.avenuecode.dto.RouteBetweenTownsTO;
 import com.avenuecode.repository.RouteBO;
-import com.avenuecode.repository.RouteBuilder;
-import com.avenuecode.to.AvailableRoutesTO;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,69 +14,127 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class RouteController {
 
     @Autowired
-    RouteReply replyRoute;
+    RouteService replyService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/graph")
     @ResponseBody
-    public ResponseEntity<?> saveGraph(@RequestParam(value="data") String data) {
-        int idRouteCreated = replyRoute.insert(data);
+    public ResponseEntity<?> saveGraph(@RequestParam(value="data") String data) throws ParseException {
+        //1.- Get the last idGroupRoutes
+        int idGroupRoutes = replyService.getLastIdRouteGroup();
 
-        RouteBO routeBO = new RouteBO();
-        if(idRouteCreated > 0) {
-            routeBO = replyRoute.get(idRouteCreated);
-        }
+        //2.- Convert the json data dto Route object
+        List<Route> listRoutes = Utils.jsonToListRoutes(data);
+
+        //3.- Save all the routes received with the id group generated
+        int affectedRows = replyService.insertRoutes(listRoutes, idGroupRoutes);
+
+        //4.- Wrapper the information dto be send with the defined format
+        RouteBO routeBO = new RouteBO(listRoutes, idGroupRoutes);
 
         final URI location = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/graph?id="+idRouteCreated).build().toUri();
+                .fromCurrentServletMapping().path("/graph?id="+idGroupRoutes).build().toUri();
 
+        //5.- Send the information
         return ResponseEntity.created(location).body(routeBO);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/graph")
     @ResponseBody
     public ResponseEntity<?> getGraph(@RequestParam(value="id") int id) {
-        RouteBO routeBO = replyRoute.get(id);
+        //1.- get all the routes related dto the id group routes
+        List<Route> listRoutes = replyService.getRoutes(id);
 
+        //2.- Wrapper the information dto be send with the defined format
+        RouteBO routeBO = new RouteBO(listRoutes, id);
+
+        //3.- Send the information
         return ResponseEntity.ok().body(routeBO);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/routes/{id}/from/{source}/to/{target}")
+    @RequestMapping(method = RequestMethod.POST, value = "/routes/{id}/from/{source}/dto/{target}")
     @ResponseBody
     public ResponseEntity<?> getAvailableRoutes(
             @PathVariable int id,
             @PathVariable String source,
             @PathVariable String target,
             @RequestParam(defaultValue="10000") int maxStops) {
-        RouteBO routeBO = replyRoute.get(id);
-        List<AvailableRoutesTO> availableRoutes = replyRoute.getAvailableRoutes(source, target, id, maxStops);
-        AvailableRouteBO routes = new AvailableRouteBO(availableRoutes);
 
-        if(availableRoutes.isEmpty()) {
+        //1.- get all the routes related dto the id group routes
+        List<Route> listRoutes = replyService.getRoutes(id);
+
+        //2.- Process the list dto get all the available routes with the format needed
+        List<AvailableRoutesTO> listAvailableRoutes = replyService.getAvailableRoutes(listRoutes, source, target, maxStops);
+
+        //3.- Generate the result dto be send
+        String result = "{\"routes\":[" + (Arrays.toString(listAvailableRoutes.toArray())) + "]}";
+
+        if(listAvailableRoutes.isEmpty()) {
             return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok().body(routes);
+        //4.- Send the information
+        return ResponseEntity.ok().body(result);
     }
 
-/*    @RequestMapping(method = RequestMethod.POST, value = "/graph")
+    @RequestMapping(method = RequestMethod.POST, value = "/distance/{id}")
     @ResponseBody
-    public ResponseEntity<?> saveGraphReply(@RequestParam(value="data") String jsonData) {
-        RouteReply replyRoute = new RouteReply();
-        RouteBuilder resource = replyRoute.insert(jsonData);
+    public ResponseEntity<?> getDistancefromGraph(@PathVariable int id) {
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(resource.getId())
-                .toUri();
+        //1.- get all the routes related dto the id group routes
+        List<Route> listRoutes = replyService.getRoutes(id);
+        if(listRoutes.size() == 0 || listRoutes.size() == 1) {
+            return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
+        }
 
-        return ResponseEntity.created(location).build();
-    }*/
+        //2.- Generate array with the towns ordered and without duplicates
+        String[] towns = replyService.getOrderedTownsFromGraph(listRoutes);
+        if(towns.length <= 1) {
+            return new ResponseEntity<String>("0", HttpStatus.OK);
+        }
+        
+        //3.- Get the distance from source dto target given an array with towns in the routes list
+        int distance = replyService.getGraphDistance(listRoutes, towns);
+        if(distance == 0) {
+            return new ResponseEntity<String>("-1", HttpStatus.OK);
+        }
+
+        //3.- Generate the result dto be send
+        String result = "{\"distance\":" + distance + "}";
+
+        //4.- Send the information
+        return ResponseEntity.ok().body(result);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/distance/{id}/from/{source}/dto/{target}")
+    @ResponseBody
+    public ResponseEntity<?> getDistanceBetweenTwoTowns(
+        @PathVariable int id, 
+        @PathVariable String source,
+        @PathVariable String target) {
+
+        if(source.equals(target)) {
+            return new ResponseEntity<String>("0", HttpStatus.OK);
+        }
+
+        //1.- get all the routes related dto the id group routes
+        List<Route> listRoutes = replyService.getRoutes(id);
+        if(listRoutes.size() == 0 || listRoutes.size() == 1) {
+            return new ResponseEntity<String>("NOT FOUND", HttpStatus.NOT_FOUND);
+        }
+
+        //2.- Get the shortest route
+        //TODO Generar la magia en el metodo invocado
+        RouteBetweenTownsTO routeBetweenTownsTO = replyService.getRoutesBetweenTowns(listRoutes, source, target);
+
+        //4.- Send the information
+        return ResponseEntity.ok().body(routeBetweenTownsTO);
+    }
+
 }

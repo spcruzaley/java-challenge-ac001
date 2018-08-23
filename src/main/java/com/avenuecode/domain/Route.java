@@ -1,26 +1,19 @@
 package com.avenuecode.domain;
 
 public class Route {
-    private int id;
     private String source;
     private String target;
     private int distance;
-    private int idRouteGroup;
 
     public Route() {
         super();
     }
 
-    public Route(int idRouteGroup, String source, String target, int distance) {
+    public Route(String source, String target, int distance) {
         super();
-        this.idRouteGroup = idRouteGroup;
         this.source = source;
         this.target = target;
         this.distance = distance;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getSource() {
@@ -35,14 +28,6 @@ public class Route {
         return distance;
     }
 
-    public int getIdRouteGroup() {
-        return idRouteGroup;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setSource(String source) {
         this.source = source;
     }
@@ -55,18 +40,12 @@ public class Route {
         this.distance = distance;
     }
 
-    public void setIdRouteGroup(int idRouteGroup) {
-        this.idRouteGroup = idRouteGroup;
-    }
-
     @Override
     public String toString() {
         return "Route{" +
-                "id=" + id +
                 ", source=" + source +
                 ", target=" + target +
                 ", distance=" + distance +
-                ", idRouteGroup=" + idRouteGroup +
                 '}';
     }
 }

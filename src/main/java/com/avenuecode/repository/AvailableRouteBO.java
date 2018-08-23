@@ -1,6 +1,6 @@
 package com.avenuecode.repository;
 
-import com.avenuecode.to.AvailableRoutesTO;
+import com.avenuecode.dto.AvailableRoutesTO;
 
 import java.util.List;
 
