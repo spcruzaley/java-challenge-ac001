@@ -23,6 +23,7 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertTest() {
+        repository.createTable();
         repository.truncateTable();
         int rowAffected = 0;
 
@@ -36,6 +37,7 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertAndGetDataTest() {
+        repository.createTable();
         repository.truncateTable();
         int idRouteGroup = 1;
 
