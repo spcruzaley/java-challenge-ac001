@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 @Repository
 public class RouteRepository  {
-    private static Logger logger = Logger.getLogger("InfoLogging");
+    private static Logger log = Logger.getLogger("InfoLogging");
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -82,8 +82,12 @@ public class RouteRepository  {
     /**
      * Create table (Just for CI integration)
       */
-    public void createTable() throws SQLException {
-        jdbcTemplate.execute(CREATE_ROUTE_TABLE);
+    public void createTable() {
+        try {
+            jdbcTemplate.execute(CREATE_ROUTE_TABLE);
+        } catch(Exception e) {
+            log.info("Error creating route table: " + e.getMessage());
+        }
     }
 
     public JdbcTemplate getJdbcTemplate() {

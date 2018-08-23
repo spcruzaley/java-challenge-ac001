@@ -25,13 +25,8 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertTest() {
-        try {
-            repository.createTable();
-        } catch (SQLException e) {
-            log.info("Exception in method [insertTest]: " + e.getMessage());
-        } finally {
-            repository.truncateTable();
-        }
+        repository.createTable();
+        repository.truncateTable();
 
         int rowAffected = 0;
 
@@ -45,13 +40,8 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertAndGetDataTest() {
-        try {
-            repository.createTable();
-        } catch (SQLException e) {
-            log.info("Exception in method [insertTest]: " + e.getMessage());
-        } finally {
-            repository.truncateTable();
-        }
+        repository.createTable();
+        repository.truncateTable();
         int idRouteGroup = 1;
 
         Route routeOne = new Route("A", "B", 7);
