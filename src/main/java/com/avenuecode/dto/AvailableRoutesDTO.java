@@ -1,10 +1,10 @@
 package com.avenuecode.dto;
 
-public class AvailableRoutesTO {
+public class AvailableRoutesDTO {
     private String route;
     private int stops;
 
-    public AvailableRoutesTO() {
+    public AvailableRoutesDTO() {
     }
 
     public String getRoute() {
@@ -25,7 +25,7 @@ public class AvailableRoutesTO {
 
     @Override
     public String toString() {
-        return "AvailableRoutesTO{" +
+        return "{" +
                 "route='" + route + '\'' +
                 ", stops=" + stops +
                 '}';

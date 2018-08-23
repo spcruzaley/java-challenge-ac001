@@ -3,13 +3,14 @@ package com.avenuecode;
 import com.avenuecode.common.Constants;
 import com.avenuecode.common.Utils;
 import com.avenuecode.domain.Route;
-import com.avenuecode.dto.AvailableRoutesTO;
-import com.avenuecode.repository.RouteBuilder;
+import com.avenuecode.dto.AvailableRoutesDTO;
+import com.avenuecode.dto.RouteBetweenTownsDTO;
 import com.avenuecode.rest.RouteService;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ public class RouteLocalTest {
     @Test
     public void availableRoutesHardCodeTest() throws ParseException {
         List<Route> routeList = Utils.jsonToListRoutes(Constants.PAYLOAD_TEST);
-        List<String> allPossibleRoutes = RouteBuilder.getTargetsFromSource("A", "C", routeList,
+        List<String> allPossibleRoutes = RouteService.getTargetsFromSource("A", "C", routeList,
                 new ArrayList<String>());
 
         List<String> resultToCompare = new ArrayList<>();
@@ -117,12 +118,21 @@ public class RouteLocalTest {
     }
 
     @Test
+    public void distanceFromCompleteGraphTest() throws ParseException {
+        List<Route> routeList = Utils.jsonToListRoutes(Constants.PAYLOAD_TEST);
+        String[] towns = RouteService.getOrderedTownsFromGraph(routeList);
+        int distance = RouteService.getGraphDistance(routeList, towns);
+
+        assert distance == 23;
+    }
+
+    @Test
     public void availableRoutesCC3Test() throws ParseException {
         List<Route> routeList = Utils.jsonToListRoutes(Constants.PAYLOAD_TEST);
         String source = "C";
         String target = "C";
         int stops = 3;
-        List<AvailableRoutesTO> availableRoutesTOS = RouteService.getAvailableRoutes(routeList, source, target, stops);
+        List<AvailableRoutesDTO> availableRoutesTOS = RouteService.getAvailableRoutes(routeList, source, target, stops);
 
         assert availableRoutesTOS.get(0).getRoute().equals("CDC");
         assert availableRoutesTOS.get(0).getStops() == 2;
@@ -136,17 +146,43 @@ public class RouteLocalTest {
         String source = "A";
         String target = "C";
         int stops = 4;
-        List<AvailableRoutesTO> availableRoutesTOS = RouteService.getAvailableRoutes(routeList, source, target, stops);
-        log.info("availableRoutesTOS --> " + availableRoutesTOS.size());
+        List<AvailableRoutesDTO> availableRoutesTOS = RouteService.getAvailableRoutes(routeList, source, target, stops);
 
-        /*assert availableRoutesTOS.get(0).getRoute().equals("ABC");
+        assert availableRoutesTOS.get(0).getRoute().equals("ABC");
         assert availableRoutesTOS.get(0).getStops() == 2;
         assert availableRoutesTOS.get(1).getRoute().equals("ADC");
         assert availableRoutesTOS.get(1).getStops() == 2;
         assert availableRoutesTOS.get(2).getRoute().equals("AEBC");
         assert availableRoutesTOS.get(2).getStops() == 3;
+
+        //TODO Fix here, there are problem with this case
+        /*log.info("availableRoutesTOS --> " + availableRoutesTOS.size());
         assert availableRoutesTOS.get(3).getRoute().equals("ADEBC");
         assert availableRoutesTOS.get(3).getStops() == 4;*/
+    }
+
+    @Test
+    public void shortestRoutesACTest() throws ParseException {
+        List<Route> routeList = Utils.jsonToListRoutes(Constants.PAYLOAD_TEST);
+        String source = "A";
+        String target = "C";
+        String[] shortestRoute = {"A", "B", "C"};
+        RouteBetweenTownsDTO townsTO = RouteService.getRoutesBetweenTowns(routeList, source, target);
+
+        assert townsTO.getDistance() == 9;
+        assert (Arrays.toString(townsTO.getTowns())).equals(Arrays.toString(shortestRoute));
+    }
+
+    @Test
+    public void shortestRoutesBBTest() throws ParseException {
+        List<Route> routeList = Utils.jsonToListRoutes(Constants.PAYLOAD_TEST);
+        String source = "B";
+        String target = "B";
+        String[] shortestRoute = {"B"};
+        RouteBetweenTownsDTO townsTO = RouteService.getRoutesBetweenTowns(routeList, source, target);
+
+        assert townsTO.getDistance() == 0;
+        assert (Arrays.toString(townsTO.getTowns())).equals(Arrays.toString(shortestRoute));
     }
 
 }

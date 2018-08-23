@@ -1,14 +1,14 @@
 package com.avenuecode.dto;
 
-public class RouteBetweenTownsTO {
+public class RouteBetweenTownsDTO {
     private int distance;
     private String[] towns;
 
-    public RouteBetweenTownsTO() {
+    public RouteBetweenTownsDTO() {
 
     }
 
-    public RouteBetweenTownsTO(int distance, String[] towns) {
+    public RouteBetweenTownsDTO(int distance, String[] towns) {
         this.distance = distance;
         this.towns = towns;
     }

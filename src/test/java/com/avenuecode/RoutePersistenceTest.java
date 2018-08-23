@@ -1,9 +1,7 @@
 package com.avenuecode;
 
-import com.avenuecode.common.Constants;
-import com.avenuecode.repository.RouteBO;
+import com.avenuecode.domain.Route;
 import com.avenuecode.repository.RouteRepository;
-import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,30 +21,30 @@ public class RoutePersistenceTest {
 
     private static Logger log = Logger.getLogger("InfoLogging");
 
-    /*@Test
-    public void insertTownAffectedRowsTest() {
+    @Test
+    public void insertTest() {
         repository.truncateTable();
         int rowAffected = 0;
 
-        Route routeOne = new Route(1, "A", "B", 5);
-        rowAffected = repository.insert(routeOne);
-        Route routeTwo = new Route(1, "A", "B", 5);
-        rowAffected += repository.insert(routeTwo);
+        Route routeOne = new Route("A", "B", 5);
+        rowAffected = repository.insert(routeOne, 1);
+        Route routeTwo = new Route("A", "B", 5);
+        rowAffected += repository.insert(routeTwo, 1);
 
         assert rowAffected == 2;
     }
 
     @Test
-    public void insertRouteAndValidateRowInsertedAndDataTest() {
+    public void insertAndGetDataTest() {
         repository.truncateTable();
         int idRouteGroup = 1;
 
-        Route routeOne = new Route(idRouteGroup, "A", "B", 7);
-        repository.insert(routeOne);
-        Route routeTwo = new Route(idRouteGroup, "B", "C", 4);
-        repository.insert(routeTwo);
-        Route routeTree = new Route(idRouteGroup, "D", "A", 6);
-        repository.insert(routeTree);
+        Route routeOne = new Route("A", "B", 7);
+        repository.insert(routeOne, idRouteGroup);
+        Route routeTwo = new Route("B", "C", 4);
+        repository.insert(routeTwo, idRouteGroup);
+        Route routeTree = new Route("D", "A", 6);
+        repository.insert(routeTree, idRouteGroup);
 
         List<Route> routesFounded = repository.findByIdRouteGroup(idRouteGroup);
 
@@ -57,7 +53,7 @@ public class RoutePersistenceTest {
         assert routesFounded.get(1).getTarget().equals("C");
     }
 
-    @Test
+    /*@Test
     public void availableRoutesFromDBTest() throws ParseException {
         repository.truncateTable();
         List<Route> routeList = Utils.jsonToListRoutes(Constants.REQUEST_DATA_AVAILABLE_ROUTES, 1);
@@ -128,7 +124,7 @@ public class RoutePersistenceTest {
 
         //Get the routes from DB
         List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
-        RouteBO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
+        RouteDTO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
         String[] towns = RouteBuilder.getTownsArray(routeBO.getData());
         int distance = RouteBuilder.getGraphDistance(towns, routeListFromDB);
 
@@ -148,7 +144,7 @@ public class RoutePersistenceTest {
         //Get the routes from DB
         List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
 
-        RouteBO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
+        RouteDTO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
         String[] towns = RouteBuilder.getTownsArray(routeBO.getData());
 
         int distance = RouteBuilder.getGraphDistance(towns, routeListFromDB);

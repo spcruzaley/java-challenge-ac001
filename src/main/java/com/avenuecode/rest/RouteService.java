@@ -1,9 +1,8 @@
 package com.avenuecode.rest;
 
 import com.avenuecode.domain.Route;
-import com.avenuecode.dto.AvailableRoutesTO;
-import com.avenuecode.dto.RouteBetweenTownsTO;
-import com.avenuecode.repository.RouteBuilder;
+import com.avenuecode.dto.AvailableRoutesDTO;
+import com.avenuecode.dto.RouteBetweenTownsDTO;
 import com.avenuecode.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 
 @Component
 public class RouteService {
-    private static Logger logger = Logger.getLogger("InfoLogging");
+    private static Logger log = Logger.getLogger("InfoLogging");
 
     @Autowired
     private RouteRepository routeRepository;
@@ -73,10 +72,10 @@ public class RouteService {
      * @param maxStops   Number of stops dto be consider
      * @return Available routes list
      */
-    public static List<AvailableRoutesTO> getAvailableRoutes(List<Route> listRoutes, String source, String target, int maxStops) {
-        AvailableRoutesTO availableRoutesTO;
-        List<AvailableRoutesTO> routes = new ArrayList<>();
-        List<String> allPossibleRoutes = RouteBuilder.getTargetsFromSource(source, target, listRoutes,
+    public static List<AvailableRoutesDTO> getAvailableRoutes(List<Route> listRoutes, String source, String target, int maxStops) {
+        AvailableRoutesDTO availableRoutesTO;
+        List<AvailableRoutesDTO> routes = new ArrayList<>();
+        List<String> allPossibleRoutes = getTargetsFromSource(source, target, listRoutes,
                 new ArrayList<String>());
 
         StringBuilder twonRoutes = new StringBuilder();
@@ -88,7 +87,7 @@ public class RouteService {
 
             if (town.equals(target)) {
                 twonRoutes.insert(0, source);
-                availableRoutesTO = new AvailableRoutesTO();
+                availableRoutesTO = new AvailableRoutesDTO();
                 availableRoutesTO.setRoute(twonRoutes.toString());
                 availableRoutesTO.setStops(count);
 
@@ -111,22 +110,25 @@ public class RouteService {
      * @param target     Target as a destiny
      * @return Available routes between the given source, target and route list
      */
-    public RouteBetweenTownsTO getRoutesBetweenTowns(List<Route> listRoutes, String source, String target) {
-        List<AvailableRoutesTO> routesTOS = getAvailableRoutes(listRoutes, source, target, Integer.MAX_VALUE);
+    public static RouteBetweenTownsDTO getRoutesBetweenTowns(List<Route> listRoutes, String source, String target) {
+        if(source.equals(target)) {
+            return new RouteBetweenTownsDTO(0, new String[] {source});
+        }
+
+        List<AvailableRoutesDTO> routesTOS = getAvailableRoutes(listRoutes, source, target, Integer.MAX_VALUE);
         List<String[]> listArrayRoutes = new ArrayList<>();
         StringBuilder builder;
 
         //Generate the complete route with the source
-        for (AvailableRoutesTO routesTO: routesTOS) {
+        for (AvailableRoutesDTO routesTO: routesTOS) {
             builder = new StringBuilder();
-            builder.append(source);
             builder.append(routesTO.getRoute());
             listArrayRoutes.add(builder.toString().split(""));
         }
 
         //Get the distance and validate what is the shortest
         int currentDistance;
-        int distance = Integer.MAX_VALUE;
+        int distance = Integer.MAX_VALUE-1;
         int index = 0;
 
         for (int i = 0; i < listArrayRoutes.size(); i++) {
@@ -136,12 +138,13 @@ public class RouteService {
                 index = i;
             }
         }
+        String[] finalRoutes = listArrayRoutes.get(index);
 
-        return new RouteBetweenTownsTO(distance, listArrayRoutes.get(index));
+        return new RouteBetweenTownsDTO(distance, finalRoutes);
     }
 
     /**
-     * Return the next id for one grpah that will be inserted in the DB
+     * Return the next id for one graph that will be inserted in the DB
      *
      * @return the next id dto store in DB
      */
@@ -150,7 +153,12 @@ public class RouteService {
         return maxIdRouteGroup;
     }
 
-    public String[] getOrderedTownsFromGraph(List<Route> listRoutes) {
+    /**
+     * Get an ordered twons
+     * @param listRoutes Routes list
+     * @return String[] with the unique towns sorted
+     */
+    public static String[] getOrderedTownsFromGraph(List<Route> listRoutes) {
         // Create the sorted set
         SortedSet set = new TreeSet();
 
@@ -160,7 +168,12 @@ public class RouteService {
             set.add(route.getTarget());
         }
 
-        String[] sortTowns = (String[]) set.toArray();
+        Iterator<String> it = set.iterator();
+        String[] sortTowns = new String[set.size()];
+        int i=0;
+        while (it.hasNext()) {
+            sortTowns[i++] = it.next();
+        }
 
         return sortTowns;
     }
@@ -202,5 +215,30 @@ public class RouteService {
         }
 
         return (distance == 0 || j == routes.size()) ? -1 : distance;
+    }
+
+    /**
+     * Recursive method dto get all the possible routes from a source dto a target
+     * @param source Source dto be searched
+     * @param target Target that we are searching
+     * @param routes List with all the routes related dto the graph
+     * @param sourceTargets List where we'll dto store all the possible routes
+     * @return List with all the possible routes given a source and target
+     */
+    public static List<String> getTargetsFromSource(
+            String source, String target, List<Route> routes, List<String> sourceTargets){
+        for (Route route : routes) {
+            if(source.equals(route.getSource())){
+                sourceTargets.add(route.getTarget());
+
+                if(target.equals(route.getTarget())){
+                    break;
+                } else {
+                    getTargetsFromSource(route.getTarget(), target, routes, sourceTargets);
+                }
+            }
+        }
+
+        return sourceTargets;
     }
 }
