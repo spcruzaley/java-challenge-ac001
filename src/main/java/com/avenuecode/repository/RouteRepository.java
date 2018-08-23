@@ -18,6 +18,9 @@ public class RouteRepository  {
     public static final String GET_ALL_ROUTES = "select * from route";
     public static final String GET_ID_ROUTE_GROUP_MAX = "select max(idRouteGroup) from route";
     public static final String TRUNCATE_ROUTE_TABLE = "truncate table route";
+    public static final String CREATE_ROUTE_TABLE = "create table route(   id integer auto_increment not null,   " +
+            "idRouteGroup integer not null,   source char(1) not null,   target char(1) not null,   " +
+            "distance integer not null,   primary key(id))";
 
     /**
      * Get all the routes stored in the DB
@@ -73,6 +76,13 @@ public class RouteRepository  {
      */
     public void truncateTable() {
         jdbcTemplate.execute(TRUNCATE_ROUTE_TABLE);
+    }
+
+    /**
+     * Create table (Just for CI integration)
+      */
+    public void createTable() {
+        jdbcTemplate.execute(CREATE_ROUTE_TABLE);
     }
 
     public JdbcTemplate getJdbcTemplate() {
