@@ -22,6 +22,4 @@ public class AvailableRoutesTO {
     public void setStops(int stops) {
         this.stops = stops;
     }
-
-    //TODO Generar el metodo toString()
 }
