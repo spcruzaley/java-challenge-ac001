@@ -2,6 +2,7 @@ package com.avenuecode;
 
 import com.avenuecode.domain.Route;
 import com.avenuecode.repository.RouteRepository;
+import org.h2.jdbc.JdbcSQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,8 +25,14 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertTest() {
-        repository.createTable();
-        repository.truncateTable();
+        try {
+            repository.createTable();
+        } catch (SQLException e) {
+            log.info("Exception in method [insertTest]: " + e.getMessage());
+        } finally {
+            repository.truncateTable();
+        }
+
         int rowAffected = 0;
 
         Route routeOne = new Route("A", "B", 5);
@@ -37,8 +45,13 @@ public class RoutePersistenceTest {
 
     @Test
     public void insertAndGetDataTest() {
-        repository.createTable();
-        repository.truncateTable();
+        try {
+            repository.createTable();
+        } catch (SQLException e) {
+            log.info("Exception in method [insertTest]: " + e.getMessage());
+        } finally {
+            repository.truncateTable();
+        }
         int idRouteGroup = 1;
 
         Route routeOne = new Route("A", "B", 7);

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -81,7 +82,7 @@ public class RouteRepository  {
     /**
      * Create table (Just for CI integration)
       */
-    public void createTable() {
+    public void createTable() throws SQLException {
         jdbcTemplate.execute(CREATE_ROUTE_TABLE);
     }
 
