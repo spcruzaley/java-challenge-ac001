@@ -17,18 +17,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    /*@Override
-    public void run(String...args) throws Exception {
-        System.out.println("*************************************************************");
-        Town t = townRepository.findById(1);
-        System.out.println("Town -> " + t);
-        System.out.println("*************************************************************");
-        List<Town> list = townRepository.getAll();
-        System.out.println("Town size -> " + list.size());
-        for(Town dto : list) {
-            System.out.println("Town t -> " + dto);
-        }
-        System.out.println("*************************************************************");
-    }*/
 }

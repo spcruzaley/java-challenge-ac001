@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Utils {
 
+    private Utils() {
+    }
+
     /**
      * Transform json data into list Route object
      * @param json
@@ -22,15 +25,15 @@ public class Utils {
         JSONObject jobj = (JSONObject) parse.parse(json);
         JSONArray jsonArray = (JSONArray) jobj.get("data");
 
-        List<Route> listRoutes = new ArrayList<Route>();
+        List<Route> listRoutes = new ArrayList<>();
         Route route;
 
         for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonobj_1 = (JSONObject) jsonArray.get(i);
+            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             route = new Route();
-            route.setSource(jsonobj_1.get("source").toString());
-            route.setTarget(jsonobj_1.get("target").toString());
-            route.setDistance(Integer.parseInt(jsonobj_1.get("distance").toString()));
+            route.setSource(jsonObject.get("source").toString());
+            route.setTarget(jsonObject.get("target").toString());
+            route.setDistance(Integer.parseInt(jsonObject.get("distance").toString()));
 
             listRoutes.add(route);
         }
