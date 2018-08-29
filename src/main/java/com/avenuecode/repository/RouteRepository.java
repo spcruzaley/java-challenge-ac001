@@ -3,6 +3,7 @@ package com.avenuecode.repository;
 import com.avenuecode.domain.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -63,13 +64,14 @@ public class RouteRepository  {
      * @return The max id number group
      */
     public int getLastIdRouteGroup() {
-        return jdbcTemplate.query(GET_ID_ROUTE_GROUP_MAX, resultSet -> {
+        ResultSetExtractor<Integer> resultSetExtractor = resultSet -> {
             if(resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
                 return 0;
             }
-        });
+        };
+        return jdbcTemplate.query(GET_ID_ROUTE_GROUP_MAX, resultSetExtractor);
     }
 
     /**
