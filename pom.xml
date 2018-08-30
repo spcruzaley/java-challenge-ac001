@@ -83,12 +83,9 @@
                     <execution>
                         <id>add-test-source</id>
                         <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
                         <configuration>
                             <sources>
-                                <source>src/it/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
