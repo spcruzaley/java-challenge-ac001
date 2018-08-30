@@ -60,22 +60,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <configuration>
-                    <targetPercentage>50%</targetPercentage>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>2.7.1</version>
@@ -95,6 +79,7 @@
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-clover2-plugin</artifactId>
                 <configuration>
+                    <targetPercentage>50%</targetPercentage>
                     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
                     <sonar.core.codeCoveragePlugin>clover</sonar.core.codeCoveragePlugin>
                     <sonar.clover.reportPath>target\site\clover\clover.xml</sonar.clover.reportPath>
@@ -102,6 +87,15 @@
                     <sonar.core.codeCoveragePlugin>clover</sonar.core.codeCoveragePlugin>
                     <sonar.clover.version>4.1.2</sonar.clover.version>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>instrument</goal>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
