@@ -23,11 +23,4 @@ public class AvailableRoutesDTO {
         this.stops = stops;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "route='" + route + '\'' +
-                ", stops=" + stops +
-                '}';
-    }
 }

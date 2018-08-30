@@ -4,10 +4,6 @@ public class RouteBetweenTownsDTO {
     private int distance;
     private String[] towns;
 
-    public RouteBetweenTownsDTO() {
-
-    }
-
     public RouteBetweenTownsDTO(int distance, String[] towns) {
         this.distance = distance;
         this.towns = towns;
@@ -25,7 +21,4 @@ public class RouteBetweenTownsDTO {
         this.distance = distance;
     }
 
-    public void setTowns(String[] towns) {
-        this.towns = towns;
-    }
 }

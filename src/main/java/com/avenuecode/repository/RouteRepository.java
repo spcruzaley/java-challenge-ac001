@@ -25,14 +25,6 @@ public class RouteRepository  {
             "distance integer not null,   primary key(id))";
 
     /**
-     * Get all the routes stored in the DB
-     * @return Route objects list
-     */
-    public List<Route> getAll() {
-        return jdbcTemplate.query(GET_ALL_ROUTES, new RouteRowMapper());
-    }
-
-    /**
      * Save a route
      * @param route  Route object dto be inserted
      * @return Number of rows affected, in other case 0
@@ -92,11 +84,4 @@ public class RouteRepository  {
         }
     }
 
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 }

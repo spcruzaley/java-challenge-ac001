@@ -58,132 +58,22 @@ public class RoutePersistenceTest {
         assert routesFounded.get(1).getTarget().equals("C");
     }
 
-    /*@Test
-    public void availableRoutesFromDBTest() throws ParseException {
-        repository.truncateTable();
-        List<Route> routeList = Utils.jsonToListRoutes(Constants.REQUEST_DATA_AVAILABLE_ROUTES, 1);
-
-        //Insert all the routes generated
-        for (Route route: routeList) {
-            repository.insert(route);
-        }
-
-        //Get the routes from DB
-        List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
-
-        //Get the possible routes
-        String source = "A";
-        String target = "C";
-        List<String> allPossibleRoutes = RouteBuilder.getTargetsFromSource(source, target, routeListFromDB,
-                new ArrayList<String>());
-
-        List<String> resultToCompare = new ArrayList<>();
-        resultToCompare.add("B");
-        resultToCompare.add("C");
-        resultToCompare.add("D");
-        resultToCompare.add("C");
-        resultToCompare.add("E");
-        resultToCompare.add("B");
-        resultToCompare.add("C");
-
-        assert resultToCompare.equals(allPossibleRoutes);
-    }
-
     @Test
-    public void distanceTest() throws ParseException {
+    public void getLastIdRouteGroupTest() {
+        repository.createTable();
         repository.truncateTable();
-        List<Route> routeList = Utils.jsonToListRoutes(Constants.REQUEST_DATA_AVAILABLE_ROUTES, 1);
+        int idRouteGroup = 1;
 
-        //Insert all the routes generated
-        for (Route route: routeList) {
-            repository.insert(route);
-        }
+        Route routeOne = new Route("A", "B", 7);
+        repository.insert(routeOne, idRouteGroup);
+        Route routeTwo = new Route("B", "C", 4);
+        repository.insert(routeTwo, idRouteGroup);
+        Route routeTree = new Route("D", "A", 6);
+        repository.insert(routeTree, idRouteGroup);
 
-        //Get the routes from DB
-        List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
+        int lastIdRoute = repository.getLastIdRouteGroup();
 
-        String[] townsABC = {"A", "B", "C"};
-        int distanceABC = RouteBuilder.getGraphDistance(townsABC, routeListFromDB);
-        String[] townsAD = {"A", "D"};
-        int distanceAD = RouteBuilder.getGraphDistance(townsAD, routeList);
-        String[] townsADC = {"A", "D", "C"};
-        int distanceADC = RouteBuilder.getGraphDistance(townsADC, routeList);
-        String[] townsAEBCD = {"A", "E", "B", "C", "D"};
-        int distanceAEBCD = RouteBuilder.getGraphDistance(townsAEBCD, routeList);
-
-        assert distanceABC == 9;
-        assert distanceAD == 5;
-        assert distanceADC == 13;
-        assert distanceAEBCD == 22;
+        assert lastIdRoute == idRouteGroup;
     }
-
-    @Test
-    public void distanceTwoTest() throws ParseException {
-        repository.truncateTable();
-        List<Route> routeList = Utils.jsonToListRoutes(Constants.REQUEST_DATA_AVAILABLE_ROUTES, 1);
-
-        //Insert all the routes generated
-        for (Route route: routeList) {
-            repository.insert(route);
-        }
-
-        //Get the routes from DB
-        List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
-        RouteDTO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
-        String[] towns = RouteBuilder.getTownsArray(routeBO.getData());
-        int distance = RouteBuilder.getGraphDistance(towns, routeListFromDB);
-
-        assert distance == 23;
-    }
-
-    @Test
-    public void shortestDistanceTest() throws ParseException {
-        repository.truncateTable();
-        List<Route> routeList = Utils.jsonToListRoutes(Constants.REQUEST_DATA_AVAILABLE_ROUTES, 1);
-
-        //Insert all the routes generated
-        for (Route route: routeList) {
-            repository.insert(route);
-        }
-
-        //Get the routes from DB
-        List<Route> routeListFromDB = repository.findByIdRouteGroup(1);
-
-        RouteDTO routeBO = RouteBuilder.transformData(routeListFromDB, 1);
-        String[] towns = RouteBuilder.getTownsArray(routeBO.getData());
-
-        int distance = RouteBuilder.getGraphDistance(towns, routeListFromDB);
-
-        //Get the possible routes
-        String source = "A";
-        String target = "C";
-        List<String> allPossibleRoutes = RouteBuilder.getTargetsFromSource(source, target, routeListFromDB,
-                new ArrayList<String>());
-
-        log.info("allPossibleRoutes --> " + Arrays.toString(allPossibleRoutes.toArray()));
-        int shortestDistance = 0;
-        int distance = Integer.MAX_VALUE;
-        String[] towns;
-        String shortestRoute = "";
-        StringBuilder twonRoutes = new StringBuilder();;
-        int count = 0;
-
-        for (String town: allPossibleRoutes) {
-            twonRoutes.append(town);
-            count++;
-
-            if(town.equals(target)) {
-                twonRoutes.insert(0, source);
-                log.info("twonRoutes --> " + twonRoutes.toString());
-                twonRoutes.delete(0, twonRoutes.length());
-                count = 0;
-            }
-        }
-
-        log.info("shortestDistance --> " + shortestDistance);
-        log.info("shortestRoute --> " + shortestRoute);
-
-        assert 1 == 1;
-    }*/
 
 }
