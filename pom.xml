@@ -80,6 +80,12 @@
                 <artifactId>maven-clover2-plugin</artifactId>
                 <configuration>
                     <targetPercentage>50%</targetPercentage>
+                    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                    <sonar.core.codeCoveragePlugin>clover</sonar.core.codeCoveragePlugin>
+                    <sonar.clover.reportPath>target\site\clover\clover.xml</sonar.clover.reportPath>
+                    <sonar.surefire.reportsPath>target\surefire-reports</sonar.surefire.reportsPath>
+                    <sonar.core.codeCoveragePlugin>clover</sonar.core.codeCoveragePlugin>
+                    <sonar.clover.version>4.1.2</sonar.clover.version>
                 </configuration>
                 <executions>
                     <execution>
