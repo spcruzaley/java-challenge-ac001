@@ -11,9 +11,6 @@ import java.util.List;
 
 public class Utils {
 
-    private Utils() {
-    }
-
     /**
      * Transform json data into list Route object
      * @param json

@@ -70,6 +70,7 @@ public class RoutePersistenceTest {
         repository.insert(routeTwo, idRouteGroup);
         Route routeTree = new Route("D", "A", 6);
         repository.insert(routeTree, idRouteGroup);
+        log.info(routeOne.toString());
 
         int lastIdRoute = repository.getLastIdRouteGroup();
 
