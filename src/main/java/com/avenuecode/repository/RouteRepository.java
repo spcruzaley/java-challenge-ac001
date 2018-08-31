@@ -17,10 +17,9 @@ public class RouteRepository  {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public static final String GET_ALL_ROUTES = "select * from route";
-    public static final String GET_ID_ROUTE_GROUP_MAX = "select max(idRouteGroup) from route";
-    public static final String TRUNCATE_ROUTE_TABLE = "truncate table route";
-    public static final String CREATE_ROUTE_TABLE = "create table route(   id integer auto_increment not null,   " +
+    private static final String GET_ID_ROUTE_GROUP_MAX = "select max(idRouteGroup) from route";
+    private static final String TRUNCATE_ROUTE_TABLE = "truncate table route";
+    private static final String CREATE_ROUTE_TABLE = "create table route(   id integer auto_increment not null,   " +
             "idRouteGroup integer not null,   source char(1) not null,   target char(1) not null,   " +
             "distance integer not null,   primary key(id))";
 
@@ -57,11 +56,11 @@ public class RouteRepository  {
      */
     public int getLastIdRouteGroup() {
         ResultSetExtractor<Integer> resultSetExtractor = resultSet -> {
+            int ret = 0;
             if(resultSet.next()) {
-                return resultSet.getInt(1);
-            } else {
-                return 0;
+                ret = resultSet.getInt(1);
             }
+            return ret;
         };
         return jdbcTemplate.query(GET_ID_ROUTE_GROUP_MAX, resultSetExtractor);
     }

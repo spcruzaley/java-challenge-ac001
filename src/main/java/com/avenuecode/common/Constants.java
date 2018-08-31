@@ -2,9 +2,6 @@ package com.avenuecode.common;
 
 public class Constants {
 
-    private Constants() {
-    }
-    
     public static final String PAYLOAD_TEST = "{" +
             "  \"data\":[" +
             "    { " +

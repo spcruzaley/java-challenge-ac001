@@ -17,8 +17,4 @@ public class RouteBetweenTownsDTO {
         return towns;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
 }

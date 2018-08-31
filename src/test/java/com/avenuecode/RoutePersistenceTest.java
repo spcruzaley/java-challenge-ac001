@@ -77,4 +77,14 @@ public class RoutePersistenceTest {
         assert lastIdRoute == idRouteGroup;
     }
 
+    @Test
+    public void getLastIdRouteGroupZeroTest() {
+        repository.createTable();
+        repository.truncateTable();
+        int idRouteGroup = 0;
+        int lastIdRoute = repository.getLastIdRouteGroup();
+
+        assert lastIdRoute == idRouteGroup;
+    }
+
 }
